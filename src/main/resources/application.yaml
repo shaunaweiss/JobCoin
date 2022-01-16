@@ -1,0 +1,14 @@
+logging:
+  format: JSON
+  level:
+    root: INFO
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  main.banner-mode: "off"
+
+jobcoin:
+  connection-timeout: 1s
+  read-timeout: 1s
+  base-uri: https://jobcoin.gemini.com/iron-unroll/api

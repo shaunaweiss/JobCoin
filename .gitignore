@@ -1,0 +1,14 @@
+.gradle/*
+gradlew.bat
+.idea/*
+.vertx/*
+build/*
+out/*
+src/main/main.iml
+.DS_Store
+*.zip
+*.pyc
+vendored
+build
+dist
+rpm
