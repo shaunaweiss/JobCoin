@@ -29,7 +29,8 @@ class JobcoinWebClient(
         .uri("/transactions")
         .body(BodyInserters.fromValue(jobcoinRequest))
         .retrieve()
-        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) } // todo handle actual 422 error
+        .onStatus(HttpStatus.UNPROCESSABLE_ENTITY::equals) { Mono.error(InsufficientFundsException("${it.bodyToMono(String::class.java)}")) }
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
         .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
         .bodyToMono(TransactionPostResponse::class.java)
 
@@ -37,7 +38,7 @@ class JobcoinWebClient(
         .get()
         .uri("/transactions")
         .retrieve()
-        .onStatus(HttpStatus::is4xxClientError) { Mono.error(InsufficientFundsException("4XX Error ${it.statusCode()}")) }
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
         .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
         .bodyToFlux(Transaction::class.java)
 

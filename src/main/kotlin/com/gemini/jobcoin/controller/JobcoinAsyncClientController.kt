@@ -5,12 +5,16 @@ import com.gemini.jobcoin.models.Transaction
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.api.response.AddressInfoResponse
 import com.gemini.jobcoin.models.api.response.TransactionPostResponse
+import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -19,12 +23,15 @@ import reactor.core.publisher.Mono
 class JobcoinAsyncClientController(
     private val jobcoinWebClient: JobcoinWebClient
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/transactions")
     fun getAllTransactions(): Flux<Transaction> {
         return jobcoinWebClient.getTransactions()
     }
 
+    // Current Assumptions: The user making request has sufficient funds in his/her account.
+    // TODO: Add in some handling arround this.
     @PostMapping("/transactions")
     fun postTransaction(
         @RequestParam fromAddress: String,
