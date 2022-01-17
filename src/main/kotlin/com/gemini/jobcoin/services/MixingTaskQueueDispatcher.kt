@@ -27,7 +27,7 @@ class MixingTaskQueueDispatcher(
         mixingTasks.remove(task)
     }
 
-    // Future ideas, make this a random delay
+    // Future implementation ideas: Design a delay for each mixing task.
     @Scheduled(fixedRate = 5000)
     fun makeMixedTransactions() {
         logger.info("Running Scheduled Mixing Job")
@@ -47,7 +47,9 @@ class MixingTaskQueueDispatcher(
                 jobcoinWebClient.postTransaction(transactionRequest)
                 // Todo - handle a retry if this fails
 
-                // For future implementation - if a single request failed, send back the amount to the original senderAddress?
+                // For future implementation - if a single request failed,
+                // send back the amount to the original senderAddress 
+                // (right now we don't store anything about the original fromAddress)
             }
             task.updateTaskStatus(MixerTaskStatus.CoinMixed)
             logger.info("MixerTaskStatus: ${task.status}")

@@ -20,10 +20,8 @@ class MixerService(
 
         // 1. Generate new deposit address
         val temporaryMixerAddress = MixerUtils.generateTemporaryMixerDepositAddress()
-        // 2. Schedule task for deposit address / transactionId
-        // val mixerTask = Runnable { poll(temporaryMixerAddress) }
-        // val createdTaskId = mixerTaskSchedulingService.addNewTask(mixerTask)
 
+        // Build Task
         val mixerTransaction = MixerTransaction(
             outgoingDepositAddresses = mixerRequest.depositAddresses,
             temporaryMixerAddress = temporaryMixerAddress
@@ -36,8 +34,8 @@ class MixerService(
         return mixerTransaction
     }
 
-    // Todo: Provide User with TransactionId in order to enable status lookup instead of using temporaryAddress
-    // Todo: This still doesn't work yet
+    // Future Implementation Ideas: Provide User with TransactionId in order to enable status lookup
+    // instead of using temporaryAddress
     fun getMixerJobStatus(temporaryAddress: String): MixerTaskStatusResponse {
         logger.info("I made it here")
         val task = processedMixerJobsLedger[temporaryAddress]
@@ -54,4 +52,9 @@ class MixerService(
             )
         }
     }
+
+    // Future implementation Ideas:
+    // Utilize an in memory caching mechanism to store a job (such as Redis/Caffeine) and implement
+    // a cache eviction strategy that kill a task if it hasn't been updated for 24 hours. That way we don't
+    // have any run away tasks.
 }
