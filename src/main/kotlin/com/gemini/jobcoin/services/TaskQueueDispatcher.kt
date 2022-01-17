@@ -1,7 +1,7 @@
 package com.gemini.jobcoin.services
 
 import com.gemini.jobcoin.client.JobcoinWebClient
-import com.gemini.jobcoin.models.mixer.MixerJob
+import com.gemini.jobcoin.models.mixer.MixerTask
 import java.util.LinkedList
 import java.util.Queue
 import org.slf4j.LoggerFactory
@@ -9,36 +9,36 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class ScheduleTasks(
+class TaskQueueDispatcher(
     private val jobcoinWebClient: JobcoinWebClient,
     private val coinMixerOrchestrator: CoinMixerOrchestrator
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val mixerJobs: Queue<MixerJob> = LinkedList<MixerJob>()
+    private val mixerTasks: Queue<MixerTask> = LinkedList<MixerTask>()
 
-    fun enqueue(mixerJob: MixerJob) {
-        mixerJobs.add(mixerJob)
+    fun enqueue(mixerTask: MixerTask) {
+        mixerTasks.add(mixerTask)
     }
 
-    private fun dequeue(mixerJob: MixerJob) {
-        mixerJobs.remove(mixerJob)
+    private fun dequeue(mixerTask: MixerTask) {
+        mixerTasks.remove(mixerTask)
     }
 
     @Scheduled(fixedRate = 5000)
     fun getTransactionForTempDepositAddress() {
         logger.info("Running Scheduled Polling Job")
-        val jobsReadyForMixing = mutableSetOf<MixerJob>()
-        mixerJobs.forEach { job ->
+        val tasksReadyForMixing = mutableSetOf<MixerTask>()
+        mixerTasks.forEach { job ->
             val tempAddress = job.mixerTransaction.temporaryMixerAddress
             val addressInfo = jobcoinWebClient.getAddressInfoSync(tempAddress)
             val balance = addressInfo?.balance
             logger.info("Polling for $tempAddress")
             if (!balance.isNullOrEmpty()) {
                 job.updateJobForProcessing(balance)
-                jobsReadyForMixing.add(job)
+                tasksReadyForMixing.add(job)
                 dequeue(job)
             }
         }
-        coinMixerOrchestrator.processMixingTransactions(jobsReadyForMixing)
+        coinMixerOrchestrator.processMixingTransactions(tasksReadyForMixing)
     }
 }

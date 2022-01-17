@@ -1,7 +1,7 @@
 package com.gemini.jobcoin.services
 
 import com.gemini.jobcoin.client.JobcoinWebClient
-import com.gemini.jobcoin.models.mixer.MixerJob
+import com.gemini.jobcoin.models.mixer.MixerTask
 import com.gemini.jobcoin.models.mixer.MixerRequest
 import com.gemini.jobcoin.models.mixer.MixerTransaction
 import com.gemini.jobcoin.utils.MixerUtils
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service
 class MixerService(
     private val mixerTaskSchedulingService: MixerTaskSchedulingService,
     private val jobcoinWebClient: JobcoinWebClient,
-    private val scheduleTasks: ScheduleTasks
+    private val taskQueueDispatcher: TaskQueueDispatcher
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val processedMixeJobsLedger = mutableSetOf<MixerJob>()
+    private val processedMixeJobsLedger = mutableSetOf<MixerTask>()
 
     fun mix(mixerRequest: MixerRequest): MixerTransaction {
 
@@ -29,12 +29,13 @@ class MixerService(
             outgoingDepositAddresses = mixerRequest.depositAddresses,
             temporaryMixerAddress = temporaryMixerAddress
         )
-        val mixerJob = MixerJob(mixerTransaction)
-        scheduleTasks.enqueue(mixerJob)
+        val mixerTask = MixerTask(mixerTransaction)
+        taskQueueDispatcher.enqueue(mixerTask)
 
         return mixerTransaction
     }
 
+    // Todo: Most likely remove this
     // fun poll(mixerTemporaryDepositAddress: String) {
     //     jobcoinWebClient.getAddressInfoAsync(mixerTemporaryDepositAddress)
     //     // TODO:  Poll Jobcoin API listening for coins sent to mixerTransaction.transactionId

@@ -11,4 +11,5 @@ spring:
 jobcoin:
   connection-timeout: 1s
   read-timeout: 1s
+  write-timeout: 1s
   base-uri: https://jobcoin.gemini.com/iron-unroll/api

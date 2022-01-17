@@ -23,11 +23,4 @@ class MixerController(
     ): MixerTransaction {
         return mixerService.mix(mixerRequest)
     }
-
-    @PostMapping("/depositAddress")
-    fun retrieveUniqueDepositAddress(
-        @Valid @RequestBody mixerRequest: MixerRequest
-    ): MixerTransaction {
-        return mixerService.mix(mixerRequest)
-    }
 }

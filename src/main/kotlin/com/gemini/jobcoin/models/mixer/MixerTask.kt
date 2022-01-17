@@ -2,7 +2,7 @@ package com.gemini.jobcoin.models.mixer
 
 import java.time.Instant
 
-class MixerJob(
+class MixerTask(
     val mixerTransaction: MixerTransaction,
     var status: MixerJobStatus = MixerJobStatus.AwaitingDeposit,
     var lastUpdated: Instant = Instant.now()
