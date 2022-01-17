@@ -5,7 +5,6 @@
 ### Prerequisites
 1. Java 11
 2. gradle
-3. maven
 4. ```git clone https://github.com/shaunaweiss/JobCoin.git```
 
 ### Intellij
