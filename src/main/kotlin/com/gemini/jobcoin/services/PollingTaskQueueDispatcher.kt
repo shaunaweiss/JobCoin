@@ -26,7 +26,7 @@ class PollingTaskQueueDispatcher(
     }
 
     @Scheduled(fixedRate = 10000)
-    fun pollJobcoinApiForTempDepositAddresses() {
+    fun pollP2PNetworkForMixerDepositAddresses() {
         logger.info("Running Scheduled Polling Job")
         val tasksReadyForMixing = mutableSetOf<Task>()
         pollingTasks.forEach { task ->
