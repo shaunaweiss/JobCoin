@@ -20,10 +20,8 @@ class MixerService(
 
         // 1. Generate new deposit address
         val temporaryMixerAddress = MixerUtils.generateTemporaryMixerDepositAddress()
-        // 2. Schedule task for deposit address / transactionId
-        // val mixerTask = Runnable { poll(temporaryMixerAddress) }
-        // val createdTaskId = mixerTaskSchedulingService.addNewTask(mixerTask)
 
+        // Build Task
         val mixerTransaction = MixerTransaction(
             outgoingDepositAddresses = mixerRequest.depositAddresses,
             temporaryMixerAddress = temporaryMixerAddress
