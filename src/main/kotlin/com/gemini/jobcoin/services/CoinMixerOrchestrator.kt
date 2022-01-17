@@ -22,7 +22,6 @@ class CoinMixerOrchestrator(
 
             // 2. Mix Funds
             val partitionPercentages = generatePartitionsForTask(task)
-            logger.info("Partition Percentages for ${task.mixerTransaction.temporaryMixerAddress}: $partitionPercentages")
 
             val depositAddressAllocations = MixerUtils.allocateCoinDistributionByPartitionPercentage(
                 partitionPercentages = partitionPercentages,
@@ -48,7 +47,7 @@ class CoinMixerOrchestrator(
         )
 
         // 2. Transfer balance to house.
-        val postTransaction = jobcoinWebClient.postTransactionSync(houseJobcoinTransactionRequest)
+        val postTransaction = jobcoinWebClient.postTransaction(houseJobcoinTransactionRequest)
 
         // 3. Update Task Status
         task.updateTaskStatus(MixerTaskStatus.FundsInHouse)

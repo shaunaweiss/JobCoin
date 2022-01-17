@@ -33,7 +33,7 @@ class PollingTaskQueueDispatcher(
             val tempAddress = task.mixerTransaction.temporaryMixerAddress
             logger.info("Polling for $tempAddress")
 
-            val addressInfo = jobcoinWebClient.getAddressInfoSync(tempAddress)
+            val addressInfo = jobcoinWebClient.getAddressInfo(tempAddress)
 
             // If there is a balance on the Address Info, that means money has been transferred
             // to the tempAddress

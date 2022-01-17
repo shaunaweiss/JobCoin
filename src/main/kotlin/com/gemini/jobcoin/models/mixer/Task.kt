@@ -8,6 +8,9 @@ data class Task(
     var lastUpdated: Instant = Instant.now(),
     val depositAllocationMap: MutableMap<String, Double> = mutableMapOf()
 ) {
+    private fun updateLastUpdated() {
+        lastUpdated = Instant.now()
+    }
     /**
      * When a [MixerTransaction] is first created, all the properties can be properly instantiated except
      * for the [updatedAmount]. Once the transfer has been initiated to the [temporaryMixerAddress], the balance
@@ -16,12 +19,12 @@ data class Task(
     fun updateTaskForProcessing(updatedAmount: String, updatedStatus: MixerTaskStatus) {
         mixerTransaction.updateTransactionAmount(updatedAmount)
         status = updatedStatus
-        lastUpdated = Instant.now()
+        updateLastUpdated()
     }
 
     fun updateTaskStatus(updatedStatus: MixerTaskStatus) {
         status = updatedStatus
-        lastUpdated = Instant.now()
+        updateLastUpdated()
     }
 
     fun updateTaskForMixing(
@@ -29,7 +32,7 @@ data class Task(
         updatedStatus: MixerTaskStatus
     ) {
         status = updatedStatus
-        lastUpdated = Instant.now()
+        updateLastUpdated()
         depositAllocationMap.putAll(allocationMap)
     }
 }
