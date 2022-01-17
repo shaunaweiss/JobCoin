@@ -1,6 +1,6 @@
 package com.gemini.jobcoin.services
 
-import com.gemini.jobcoin.models.mixer.MixerTask
+import com.gemini.jobcoin.models.mixer.Task
 import java.time.Duration
 import java.util.LinkedList
 import java.util.Queue
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class MixerTaskSchedulingService(
     private val scheduler: TaskScheduler
 ) {
-    val mixerTasks: Queue<MixerTask> = LinkedList<MixerTask>()
+    val tasks: Queue<Task> = LinkedList<Task>()
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val futures: MutableMap<Int, ScheduledFuture<*>> = HashMap()

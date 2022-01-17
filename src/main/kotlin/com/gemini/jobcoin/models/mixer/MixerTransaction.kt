@@ -6,7 +6,15 @@ data class MixerTransaction(
     val outgoingDepositAddresses: List<String>,
     var amount: String? = null
 ) {
+    fun getNumDepositAddresses(): Int {
+        return outgoingDepositAddresses.size
+    }
+
     fun updateTransactionAmount(updatedAmount: String) {
         amount = updatedAmount
     }
+
+    // fun getDoubleAmount(): Double {
+    //     return amount!!.toDouble()
+    // }
 }

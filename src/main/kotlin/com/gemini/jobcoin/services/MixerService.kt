@@ -2,19 +2,19 @@ package com.gemini.jobcoin.services
 
 import com.gemini.jobcoin.models.api.response.MixerTaskStatusResponse
 import com.gemini.jobcoin.models.mixer.MixerRequest
-import com.gemini.jobcoin.models.mixer.MixerTask
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
 import com.gemini.jobcoin.models.mixer.MixerTransaction
+import com.gemini.jobcoin.models.mixer.Task
 import com.gemini.jobcoin.utils.MixerUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class MixerService(
-    private val taskQueueDispatcher: TaskQueueDispatcher
+    private val pollingTaskQueueDispatcher: PollingTaskQueueDispatcher
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val processedMixerJobsLedger = mutableMapOf<String, MixerTask>()
+    private val processedMixerJobsLedger = mutableMapOf<String, Task>()
 
     fun mix(mixerRequest: MixerRequest): MixerTransaction {
 
@@ -28,10 +28,10 @@ class MixerService(
             outgoingDepositAddresses = mixerRequest.depositAddresses,
             temporaryMixerAddress = temporaryMixerAddress
         )
-        val mixerTask = MixerTask(mixerTransaction)
-        taskQueueDispatcher.enqueue(mixerTask)
+        val task = Task(mixerTransaction)
+        pollingTaskQueueDispatcher.enqueue(task)
 
-        processedMixerJobsLedger[temporaryMixerAddress] = mixerTask
+        processedMixerJobsLedger[temporaryMixerAddress] = task
 
         return mixerTransaction
     }

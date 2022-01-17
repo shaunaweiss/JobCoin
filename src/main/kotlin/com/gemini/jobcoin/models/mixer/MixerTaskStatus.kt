@@ -4,6 +4,7 @@ enum class MixerTaskStatus {
     AwaitingDeposit,
     ReadyForProcessing,
     FundsInHouse,
+    ReadyForCoinMixing,
     CoinMixed,
     Unknown
 }

@@ -1,8 +1,8 @@
 package com.gemini.jobcoin.services
 
 import com.gemini.jobcoin.client.JobcoinWebClient
-import com.gemini.jobcoin.models.mixer.MixerTask
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
+import com.gemini.jobcoin.models.mixer.Task
 import java.util.LinkedList
 import java.util.Queue
 import org.slf4j.LoggerFactory
@@ -10,26 +10,26 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class TaskQueueDispatcher(
+class PollingTaskQueueDispatcher(
     private val jobcoinWebClient: JobcoinWebClient,
     private val coinMixerOrchestrator: CoinMixerOrchestrator
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val mixerTasks: Queue<MixerTask> = LinkedList()
+    private val pollingTasks: Queue<Task> = LinkedList()
 
-    fun enqueue(mixerTask: MixerTask) {
-        mixerTasks.add(mixerTask)
+    fun enqueue(task: Task) {
+        pollingTasks.add(task)
     }
 
-    private fun dequeue(mixerTask: MixerTask) {
-        mixerTasks.remove(mixerTask)
+    private fun dequeue(task: Task) {
+        pollingTasks.remove(task)
     }
 
-    @Scheduled(fixedRate = 5000)
-    fun getTransactionForTempDepositAddress() {
+    @Scheduled(fixedRate = 10000)
+    fun pollJobcoinApiForTempDepositAddresses() {
         logger.info("Running Scheduled Polling Job")
-        val tasksReadyForMixing = mutableSetOf<MixerTask>()
-        mixerTasks.forEach { task ->
+        val tasksReadyForMixing = mutableSetOf<Task>()
+        pollingTasks.forEach { task ->
             val tempAddress = task.mixerTransaction.temporaryMixerAddress
             logger.info("Polling for $tempAddress")
 
