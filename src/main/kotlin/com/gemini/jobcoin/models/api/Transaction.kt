@@ -1,4 +1,4 @@
-package com.gemini.jobcoin.models
+package com.gemini.jobcoin.models.api
 
 data class Transaction(
     val timestamp: String?,
