@@ -5,6 +5,7 @@ import com.gemini.jobcoin.models.Transaction
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.api.response.AddressInfoResponse
 import com.gemini.jobcoin.models.api.response.TransactionPostResponse
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,12 +20,15 @@ import reactor.core.publisher.Mono
 class JobcoinAsyncClientController(
     private val jobcoinWebClient: JobcoinWebClient
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/transactions")
     fun getAllTransactions(): Flux<Transaction> {
         return jobcoinWebClient.getTransactions()
     }
 
+    // Current Assumptions: The user making request has sufficient funds in his/her account.
+    // TODO: Add in some handling around this.
     @PostMapping("/transactions")
     fun postTransaction(
         @RequestParam fromAddress: String,
@@ -32,13 +36,13 @@ class JobcoinAsyncClientController(
         @RequestParam amount: String
     ): Mono<TransactionPostResponse> {
         val jobcoinRequest = JobcoinTransactionRequest(fromAddress, toAddress, amount)
-        return jobcoinWebClient.postTransaction(jobcoinRequest)
+        return jobcoinWebClient.postTransactionAsync(jobcoinRequest)
     }
 
     @GetMapping("/addresses/{address}")
     fun getAddressesInfo(
         @PathVariable address: String
     ): Mono<AddressInfoResponse> {
-        return jobcoinWebClient.getAddressInfo(address)
+        return jobcoinWebClient.getAddressInfoAsync(address)
     }
 }

@@ -43,9 +43,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.projectreactor:reactor-spring:1.0.1.RELEASE")
-//    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-//        exclude module: "mockito-core"
-//    }
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     // Logging

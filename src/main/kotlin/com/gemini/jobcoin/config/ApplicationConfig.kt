@@ -71,22 +71,33 @@ open class ApplicationConfig {
     open fun webClient(
         @Value("\${jobcoin.base-uri}") baseUri: String,
         @Value("\${jobcoin.read-timeout}") readTimeout: Duration,
+        @Value("\${jobcoin.write-timeout}") writeTimeout: Duration,
         @Value("\${jobcoin.connection-timeout}") connectionTimeout: Duration
-    ): WebClient = WebClient.builder()
-        .baseUrl(baseUri)
-        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-        .clientConnector(
-            ReactorClientHttpConnector(
-                HttpClient.from( // todo: fix deprecation
-                TcpClient
-            .create()
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
-            .doOnConnected { connection: Connection ->
-                connection.addHandlerLast(ReadTimeoutHandler(10000, TimeUnit.MILLISECONDS))
-                connection.addHandlerLast(WriteTimeoutHandler(10000, TimeUnit.MILLISECONDS))
-            }))
-        )
-        .build()
+    ): WebClient {
+        if (baseUri.isEmpty()) {
+            throw ConfigLoadingException("Jobcoin Config baseUri")
+        }
+        val message = "Creating WebClient with baseUri: $baseUri, " +
+            "connectTimeout: $connectionTimeout, readTimeout: $readTimeout"
+        logger.info(message)
+
+        return WebClient.builder()
+            .baseUrl(baseUri)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .clientConnector(
+                ReactorClientHttpConnector(
+                    HttpClient.from( // todo: fix deprecation
+                        TcpClient
+                            .create()
+                            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout.toMillisPart())
+                            .doOnConnected { connection: Connection ->
+                                connection.addHandlerLast(ReadTimeoutHandler(readTimeout.toSeconds(), TimeUnit.SECONDS))
+                                connection.addHandlerLast(WriteTimeoutHandler(writeTimeout.toSeconds(), TimeUnit.SECONDS))
+                            })
+                )
+            )
+            .build()
+    }
 
 // todo: change these vals and move to config
 }

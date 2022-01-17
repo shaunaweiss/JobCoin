@@ -22,30 +22,53 @@ class JobcoinWebClient(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    fun postTransaction(
+    fun postTransactionAsync(
         jobcoinRequest: JobcoinTransactionRequest
     ): Mono<TransactionPostResponse> = webClient
         .post()
         .uri("/transactions")
         .body(BodyInserters.fromValue(jobcoinRequest))
         .retrieve()
-        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) } // todo handle actual 422 error
+        .onStatus(HttpStatus.UNPROCESSABLE_ENTITY::equals) { Mono.error(InsufficientFundsException("${it.bodyToMono(String::class.java)}")) }
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
         .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
         .bodyToMono(TransactionPostResponse::class.java)
+
+    fun postTransactionSync(
+        jobcoinRequest: JobcoinTransactionRequest
+    ): TransactionPostResponse? = webClient
+        .post()
+        .uri("/transactions")
+        .body(BodyInserters.fromValue(jobcoinRequest))
+        .retrieve()
+        .onStatus(HttpStatus.UNPROCESSABLE_ENTITY::equals) { Mono.error(InsufficientFundsException("${it.bodyToMono(String::class.java)}")) }
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
+        .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
+        .bodyToMono(TransactionPostResponse::class.java)
+        .block()
 
     fun getTransactions(): Flux<Transaction> = webClient
         .get()
         .uri("/transactions")
         .retrieve()
-        .onStatus(HttpStatus::is4xxClientError) { Mono.error(InsufficientFundsException("4XX Error ${it.statusCode()}")) }
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
         .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
         .bodyToFlux(Transaction::class.java)
 
-    fun getAddressInfo(address: String): Mono<AddressInfoResponse> = webClient
+    fun getAddressInfoAsync(address: String): Mono<AddressInfoResponse> = webClient
         .get()
         .uri("/addresses/$address")
         .retrieve()
         .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
         .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
         .bodyToMono(AddressInfoResponse::class.java)
+
+    fun getAddressInfoSync(address: String): AddressInfoResponse? = webClient
+        .get()
+        .uri("/addresses/$address")
+        .retrieve()
+        .onStatus(HttpStatus::is4xxClientError) { Mono.error(RuntimeException("4XX Error ${it.statusCode()}")) }
+        .onStatus(HttpStatus::is5xxServerError) { Mono.error(RuntimeException("5XX Error ${it.statusCode()}")) }
+        .bodyToMono(AddressInfoResponse::class.java)
+        .block()
 }
