@@ -57,7 +57,7 @@ open class ApplicationConfig {
             throw ConfigLoadingException("Jobcoin Config baseUri")
         }
         val message = "Creating WebClient with baseUri: $baseUri, " +
-            "connectTimeout: $connectionTimeout, readTimeout: $readTimeout"
+            "connectTimeout: $connectionTimeout, readTimeout: $readTimeout, writeTimeout: $writeTimeout"
         logger.info(message)
 
         return WebClient.builder()
@@ -65,7 +65,7 @@ open class ApplicationConfig {
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .clientConnector(
                 ReactorClientHttpConnector(
-                    HttpClient.from( // todo: fix deprecation
+                    HttpClient.from(
                         TcpClient
                             .create()
                             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout.toMillisPart())
@@ -77,6 +77,4 @@ open class ApplicationConfig {
             )
             .build()
     }
-
-// todo: change these vals and move to config
 }

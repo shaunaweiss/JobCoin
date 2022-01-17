@@ -20,6 +20,10 @@ class MixerController(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    /**
+     * Endpoint to kick off Jobcoin Mixing
+     * @return MixerTransaction
+     */
     @PostMapping("/mix")
     fun mix(
         @Valid @RequestBody mixerRequest: MixerRequest
@@ -27,6 +31,9 @@ class MixerController(
         return mixerService.mix(mixerRequest)
     }
 
+    /**
+     * Endpoint used to check in on the progress of a Jobcoin Mixing Task
+     */
     @GetMapping("/address/{address}/status")
     fun getTaskStatus(
         @PathVariable address: String
