@@ -1,6 +1,7 @@
 package com.gemini.jobcoin.services
 
 import com.gemini.jobcoin.client.JobcoinWebClient
+import com.gemini.jobcoin.models.HOUSE_ADDRESS
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
 import com.gemini.jobcoin.models.mixer.Task
@@ -8,7 +9,6 @@ import com.gemini.jobcoin.utils.MixerUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
-const val HOUSE_ADDRESS = "house"
 @Component
 class CoinMixerOrchestrator(
     private val jobcoinWebClient: JobcoinWebClient,

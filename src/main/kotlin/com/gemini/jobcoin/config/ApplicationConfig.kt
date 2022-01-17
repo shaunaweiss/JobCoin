@@ -15,14 +15,12 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.scheduling.annotation.EnableScheduling
-import org.springframework.web.client.RestTemplate
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.Connection
 import reactor.netty.http.client.HttpClient
@@ -48,25 +46,6 @@ open class ApplicationConfig {
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 
-    @Bean
-    open fun restTemplate(
-        @Value("\${jobcoin.base-uri}") baseUri: String,
-        @Value("\${jobcoin.read-timeout}") readTimeout: Duration,
-        @Value("\${jobcoin.connection-timeout}") connectionTimeout: Duration
-    ): RestTemplate {
-        if (baseUri.isEmpty()) {
-            throw ConfigLoadingException("Jobcoin Config baseUri")
-        }
-        val message = "Creating template with baseUri: $baseUri, " +
-            "connectTimeout: $connectionTimeout, readTimeout: $readTimeout"
-        logger.info(message)
-
-        return RestTemplateBuilder()
-            .rootUri(baseUri)
-            .setConnectTimeout(connectionTimeout)
-            .setReadTimeout(readTimeout)
-            .build()
-    }
     @Bean
     open fun webClient(
         @Value("\${jobcoin.base-uri}") baseUri: String,

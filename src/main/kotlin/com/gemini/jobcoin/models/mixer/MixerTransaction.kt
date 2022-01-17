@@ -2,7 +2,6 @@ package com.gemini.jobcoin.models.mixer
 
 data class MixerTransaction(
     val temporaryMixerAddress: String,
-    // val transactionId: Int,
     val outgoingDepositAddresses: List<String>,
     var amount: String? = null
 ) {
@@ -13,8 +12,4 @@ data class MixerTransaction(
     fun updateTransactionAmount(updatedAmount: String) {
         amount = updatedAmount
     }
-
-    // fun getDoubleAmount(): Double {
-    //     return amount!!.toDouble()
-    // }
 }

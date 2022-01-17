@@ -54,14 +54,4 @@ class MixerService(
             )
         }
     }
-
-    // Todo: Most likely remove this
-    // fun poll(mixerTemporaryDepositAddress: String) {
-    //     jobcoinWebClient.getAddressInfoAsync(mixerTemporaryDepositAddress)
-    //     // TODO:  Poll Jobcoin API listening for coins sent to mixerTransaction.transactionId
-    //     logger.info("I am polling Jobcoin API for $mixerTemporaryDepositAddress")
-    //
-    //     // Once we see the transaction we are looking for, we need to transfer that money to house address
-    //     // add the task to the task queue
-    // }
 }

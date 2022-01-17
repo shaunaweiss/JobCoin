@@ -1,11 +1,5 @@
 package utils
 
-import com.gemini.jobcoin.utils.MixerUtils
-import com.gemini.jobcoin.utils.MixerUtils.MAX_PARTITION_PERCENTAGE
-import kotlin.random.Random
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.Test
-
 class TestMixerUtils {
 
     // @Test

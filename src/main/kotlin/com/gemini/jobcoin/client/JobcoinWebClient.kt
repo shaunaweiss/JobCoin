@@ -1,7 +1,7 @@
 package com.gemini.jobcoin.client
 
 import com.gemini.jobcoin.exceptions.InsufficientFundsException
-import com.gemini.jobcoin.models.Transaction
+import com.gemini.jobcoin.models.api.Transaction
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.api.response.AddressInfoResponse
 import com.gemini.jobcoin.models.api.response.TransactionPostResponse

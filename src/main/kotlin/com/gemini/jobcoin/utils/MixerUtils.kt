@@ -9,15 +9,15 @@ object MixerUtils {
     private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val usedMixerAddresses = mutableSetOf<String>()
+    private val mixerAddressesInUse = mutableSetOf<String>()
 
     fun generateTemporaryMixerDepositAddress(): String {
         var randomString = generateRandomString()
         // Keep track of the temporary mixerAddresses currently in use
-        if (usedMixerAddresses.contains(randomString)) {
+        if (mixerAddressesInUse.contains(randomString)) {
             randomString = generateRandomString()
         }
-        usedMixerAddresses.add(randomString)
+        mixerAddressesInUse.add(randomString)
         return randomString
     }
 
@@ -31,7 +31,7 @@ object MixerUtils {
     // Once a transaction has been complete OR a user session has expired,
     // the temporary mixer address will be removed from rotation.
     fun removeTemporaryMixerAddress(address: String): Boolean {
-        return usedMixerAddresses.remove(address)
+        return mixerAddressesInUse.remove(address)
     }
 
     /**
