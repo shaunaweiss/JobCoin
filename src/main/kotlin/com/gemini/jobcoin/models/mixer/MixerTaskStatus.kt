@@ -1,7 +1,9 @@
 package com.gemini.jobcoin.models.mixer
 
-enum class MixerJobStatus {
+enum class MixerTaskStatus {
     AwaitingDeposit,
     ReadyForProcessing,
-    CoinMixed
+    FundsInHouse,
+    CoinMixed,
+    Unknown
 }
