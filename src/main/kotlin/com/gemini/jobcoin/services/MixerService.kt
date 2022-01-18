@@ -38,7 +38,6 @@ class MixerService(
     // Future Implementation Ideas: Provide User with TransactionId in order to enable status lookup
     // instead of using temporaryAddress
     fun getMixerJobStatus(temporaryAddress: String): MixerTaskStatusResponse {
-        logger.info("I made it here")
         val task = processedMixerJobsLedger[temporaryAddress]
         return if (task != null) {
             MixerTaskStatusResponse(

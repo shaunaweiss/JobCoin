@@ -44,8 +44,9 @@ class MixingTaskQueueDispatcher(
                     amount = it.value.toString()
                 )
                 logger.info("Posting Transaction: $transactionRequest")
-                jobcoinWebClient.postTransaction(transactionRequest)
-                // Todo - handle a retry if this fails
+                jobcoinWebClient.postTransaction(transactionRequest) // Assumption - this always succeeds :)
+
+                // Future implementation - handle if the post request fails
 
                 // For future implementation - if a single request failed,
                 // send back the amount to the original senderAddress
