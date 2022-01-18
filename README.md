@@ -1,11 +1,13 @@
 # Jobcoin Mixer
+![Bitcoin](docs/assets/bitcoin.png)
 ## Developer Setup
 ### Prerequisites
 1. Java 11
 2. gradle
 4. ```git clone https://github.com/shaunaweiss/JobCoin.git```
 
-### Intellij
+### Intellij - Running Locally
+Check out my [Live Demo](https://youtu.be/F71IHJXSv6E).
 1. Import the project to Intellij as an appropriate gradle or maven project
 2. Set main class and Run: <br>
    ```com/gemini/jobcoin/JobcoinApplication.kt```
