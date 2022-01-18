@@ -1,5 +1,7 @@
 # Jobcoin Mixer
 
+Check out my [Demo]()
+
 ## Developer Setup
 ### Prerequisites
 1. Java 11
@@ -37,7 +39,7 @@ If time was something I had more of, here are a couple of things I would've incl
     * Junit5
     * [MockK](https://mockk.io/)
     * [Spring-Boot-Starter-Test](https://docs.spring.io/spring-boot/docs/1.0.x-SNAPSHOT/reference/html/boot-features-testing.html)
-* Utilized a Database instead of inmemory persistence 
+* Utilized a Database / Separate Persistence layer. (Redis could be a nice touch?)
 * Swagger Docs
 * More validation handling around the responses from the Jobcoin API (instead of throwing Runtime Exceptions)...
 * Added Unit tests specifically around null property values throughout, to ensure null safety. 
@@ -45,7 +47,9 @@ If time was something I had more of, here are a couple of things I would've incl
 ### Future Feature Adds 
 * Add a random delay to the tasks responsible for sending the "mixed" transactions to enhance the anonymity of the mixing process.
 * Additional Retry Mechanisms- If calls to the external jobcoin API Fail, enqueue the tasks in question to retry at a later cron interval.
-  * Further, if for some reason one of the "outgoingAddresses" does not exist or the transaction fails to go through, implement a solution that enables the coins can be sent to one of the other provided addresses, and if all else fails, back to the original sender address.
+  * Further, if for some reason one of the "outgoingAddresses" does not exist or the transaction fails to go through, implement a solution that enables the coins to be sent to one of the other provided addresses, and if all else fails, back to the original sender address.
 
+_Additional Implementation ideas are available in the comments of many classes._
+  
 ## Resources
 * [Jobcoin API](https://jobcoin.gemini.com/tremble/api/)
