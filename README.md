@@ -1,5 +1,4 @@
 # Jobcoin Mixer
-Check out my [Live Demo](docs/assets/JobcoinLiveDemo.mov)!!
 ## Developer Setup
 ### Prerequisites
 1. Java 11
