@@ -1,18 +1,5 @@
 # Jobcoin Mixer
 
-## Intended Flow for Coin Mixers
-1. You provide a list of new, unused addresses that you own to the mixer
-2. The mixer provides you with a new deposit address that it owns;
-3. You transfer your bitcoins to that address;
-4. The mixer will detect your transfer by watching or polling the P2P Bitco in network;
-5. The mixer will transfer your bitcoin from the deposit address into a big "house account" along with all the other bitcoin currently being mixed; and
-6. Then, over some time the mixer will use the house account to dole out your bitcoin in smaller discrete increments to the withdrawal addresses that you provided, possibly after deducting a fee.
-
-## Some assumptions I made about Jobcoin
-* The mixer's deposit address that we create is unique and we do not have to worry about the generator duplicating it.
-* The addresses provided to us by the user DO exist and are owned by that user.
-* Only one transaction is being sent to the address provided by the mixer. (If more than one transaction is made, that money is lost to the house address. :( )
-
 ## Developer Setup
 ### Prerequisites
 1. Java 11
@@ -27,6 +14,19 @@
 ### Gradle
 * Compile and run unit tests: ```./gradlew build```
 * Style check: ```./gradlew ktlintformat```
+
+## Intended Flow for Coin Mixers
+1. You provide a list of new, unused addresses that you own to the mixer
+2. The mixer provides you with a new deposit address that it owns;
+3. You transfer your bitcoins to that address;
+4. The mixer will detect your transfer by watching or polling the P2P Bitco in network;
+5. The mixer will transfer your bitcoin from the deposit address into a big "house account" along with all the other bitcoin currently being mixed; and
+6. Then, over some time the mixer will use the house account to dole out your bitcoin in smaller discrete increments to the withdrawal addresses that you provided, possibly after deducting a fee.
+
+## Some assumptions I made about Jobcoin
+* The mixer's deposit address that we create is unique, and we do not have to worry about duplications.
+* The addresses provided to us by the user DO exist and are owned by that user.
+* Only one transaction is being sent to the address provided by the mixer. (If more than one transaction is made, that money is lost to the house address. :( )
 
 ## Future Todos
 If time was something I had more of, here are a couple of things I would've included/changed...
