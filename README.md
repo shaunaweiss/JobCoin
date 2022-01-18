@@ -7,7 +7,7 @@
 4. ```git clone https://github.com/shaunaweiss/JobCoin.git```
 
 ### Intellij - Running Locally
-Check out my [Live Demo](https://youtu.be/F71IHJXSv6E).
+Check out my Live Demo on [Youtube](https://youtu.be/F71IHJXSv6E) or Download .mov file [here](https://drive.google.com/file/d/1ZBJzNCq2hunuvMitfpxkjbTfGQ4vMv_c/view?usp=sharing).
 1. Import the project to Intellij as an appropriate gradle or maven project
 2. Set main class and Run: <br>
    ```com/gemini/jobcoin/JobcoinApplication.kt```
