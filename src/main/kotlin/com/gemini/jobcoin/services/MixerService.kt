@@ -53,9 +53,4 @@ class MixerService(
             )
         }
     }
-
-    // Future implementation Ideas:
-    // Utilize an in memory caching mechanism to store a job (such as Redis/Caffeine) and implement
-    // a cache eviction strategy that kill a task if it hasn't been updated for 24 hours. That way we don't
-    // have any run away tasks.
 }
