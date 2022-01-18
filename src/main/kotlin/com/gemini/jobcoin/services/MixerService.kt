@@ -8,6 +8,7 @@ import com.gemini.jobcoin.models.mixer.Task
 import com.gemini.jobcoin.utils.MixerUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class MixerService(
@@ -19,7 +20,7 @@ class MixerService(
     fun mix(mixerRequest: MixerRequest): MixerTransaction {
 
         // 1. Generate new deposit address
-        val temporaryMixerAddress = MixerUtils.generateTemporaryMixerDepositAddress()
+        val temporaryMixerAddress = UUID.randomUUID().toString()
 
         // Build Task
         val mixerTransaction = MixerTransaction(

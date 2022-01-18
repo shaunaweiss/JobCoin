@@ -31,8 +31,6 @@ class JobcoinController(
         return jobcoinWebClient.getTransactions()
     }
 
-    // Current Assumptions: The user making request has sufficient funds in his/her account.
-    // TODO: Add in some handling around this.
     @PostMapping("/transactions")
     fun postTransaction(
         @RequestParam fromAddress: String,
