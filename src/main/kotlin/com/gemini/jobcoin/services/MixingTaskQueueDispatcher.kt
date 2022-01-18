@@ -5,7 +5,6 @@ import com.gemini.jobcoin.models.HOUSE_ADDRESS
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
 import com.gemini.jobcoin.models.mixer.Task
-import com.gemini.jobcoin.utils.MixerUtils
 import java.util.LinkedList
 import java.util.Queue
 import org.slf4j.LoggerFactory

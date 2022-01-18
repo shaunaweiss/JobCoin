@@ -12,6 +12,6 @@ data class AddressInfoResponse(
 
     fun isNonZeroBalance(): Boolean {
         return balance.isNotEmpty() &&
-            ( getBalanceAsDouble()!! > 0.0)
+            (getBalanceAsDouble()!! > 0.0)
     }
 }
