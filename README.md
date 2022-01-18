@@ -50,6 +50,7 @@ If time was something I had more of, here are a couple of things I would've incl
     * [MockK](https://mockk.io/)
     * [Spring-Boot-Starter-Test](https://docs.spring.io/spring-boot/docs/1.0.x-SNAPSHOT/reference/html/boot-features-testing.html)
 * Utilized a Database / Separate Persistence layer. (Redis could be a nice touch?)
+* Utilized SNS Topics & SQS
 * More validation handling around the responses from the Jobcoin API (instead of throwing Runtime Exceptions)...
 * Added Unit tests specifically around null property values throughout, to ensure null safety. 
 
