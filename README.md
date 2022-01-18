@@ -1,7 +1,5 @@
 # Jobcoin Mixer
-
-Check out my [Demo]()
-
+Check out my [Live Demo](docs/assets/JobcoinLiveDemo.mov)!!
 ## Developer Setup
 ### Prerequisites
 1. Java 11
@@ -13,7 +11,19 @@ Check out my [Demo]()
 2. Set main class and Run: <br>
    ```com/gemini/jobcoin/JobcoinApplication.kt```
 3. Running locally using Intellij ![Intellij Run Config](docs/assets/JobcoinRunConfig.png)
-
+4. [Swagger Local Link](http://localhost:8080/swagger-ui/#/)
+5. To **mix** some coins --> ```/mixer/mix``` with request body like such: 
+```
+{
+   "depositAddresses":[
+      "depositAddress10",
+      "depositAddress11",
+      "depositAddress12",
+      "depositAddress13"
+   ]
+}
+```
+7. Viewing the status of your mixing task -> ```mixer/address/$mixerDepositAddress/status```
 
 ### Gradle
 * Compile and run unit tests: ```./gradlew build```
@@ -21,10 +31,10 @@ Check out my [Demo]()
 
 ## Intended Flow for Coin Mixers
 1. You provide a list of new, unused addresses that you own to the mixer
-2. The mixer provides you with a new deposit address that it owns;
-3. You transfer your bitcoins to that address;
-4. The mixer will detect your transfer by watching or polling the P2P Bitco in network;
-5. The mixer will transfer your bitcoin from the deposit address into a big "house account" along with all the other bitcoin currently being mixed; and
+2. The mixer provides you with a new deposit address that it owns
+3. You transfer your bitcoins to that address
+4. The mixer will detect your transfer by watching or polling the P2P Bitcoin network;
+5. The mixer will transfer your bitcoin from the deposit address into a big "house account" along with all the other bitcoin currently being mixed and
 6. Then, over some time the mixer will use the house account to dole out your bitcoin in smaller discrete increments to the withdrawal addresses that you provided, possibly after deducting a fee.
 
 ## Some assumptions I made about Jobcoin
@@ -40,7 +50,6 @@ If time was something I had more of, here are a couple of things I would've incl
     * [MockK](https://mockk.io/)
     * [Spring-Boot-Starter-Test](https://docs.spring.io/spring-boot/docs/1.0.x-SNAPSHOT/reference/html/boot-features-testing.html)
 * Utilized a Database / Separate Persistence layer. (Redis could be a nice touch?)
-* Swagger Docs
 * More validation handling around the responses from the Jobcoin API (instead of throwing Runtime Exceptions)...
 * Added Unit tests specifically around null property values throughout, to ensure null safety. 
 
