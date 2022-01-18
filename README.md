@@ -8,8 +8,10 @@
 
 ### Intellij
 1. Import the project to Intellij as an appropriate gradle or maven project
-3. Set main class and Run: <br>
+2. Set main class and Run: <br>
    ```com/gemini/jobcoin/JobcoinApplication.kt```
+3. Running locally using Intellij ![Intellij Run Config](docs/assets/JobcoinRunConfig.png)
+
 
 ### Gradle
 * Compile and run unit tests: ```./gradlew build```
