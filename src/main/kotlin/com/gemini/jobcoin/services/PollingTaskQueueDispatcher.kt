@@ -21,29 +21,40 @@ class PollingTaskQueueDispatcher(
         pollingTasks.add(task)
     }
 
-    private fun dequeue(task: Task) {
-        pollingTasks.remove(task)
-    }
-
+    /**
+     * Scheduled Job to poll the P2P network for the addresses provided by the Mixer to user.
+     *
+     * Note: Logging statements are purposefully overkill to enhance visibility throughout the function.
+     * On a production application, we would certainly want/need to refine these.
+     */
     @Scheduled(fixedRate = 10000)
     fun pollP2PNetworkForMixerDepositAddresses() {
         logger.info("Running Scheduled Polling Job")
         val tasksReadyForMixing = mutableSetOf<Task>()
-        pollingTasks.forEach { task ->
-            val tempAddress = task.mixerTransaction.temporaryMixerAddress
-            logger.info("Polling for $tempAddress")
+        val backOnTheQueue: Queue<Task> = LinkedList()
 
-            val addressInfo = jobcoinWebClient.getAddressInfo(tempAddress)
+        logger.info("Polling for ${pollingTasks.size} mixerDepositAddress transactions")
+        logger.debug("Task Queue before polling: $pollingTasks")
 
-            // If there is a balance on the Address Info, that means money has been transferred
-            // to the tempAddress
+        while (pollingTasks.isNotEmpty()) {
+            val task = pollingTasks.poll()
+            val mixerDepositAddress = task.mixerTransaction.temporaryMixerAddress
+            logger.info("Polling for $mixerDepositAddress")
+
+            val addressInfo = jobcoinWebClient.getAddressInfo(mixerDepositAddress)
+
             if (addressInfo != null && addressInfo.isNonZeroBalance()) {
-                // The only thing missing from a MixerTransaction at this point is the amount.
                 task.updateTaskForProcessing(addressInfo.balance, MixerTaskStatus.ReadyForProcessing)
+                logger.info("Task with mixerDepositAddress $mixerDepositAddress - Ready For Processing")
                 tasksReadyForMixing.add(task)
-                dequeue(task)
+            } else {
+                // If the deposit has not yet been made, roll this task over to be checked again on the
+                // next iteration of this scheduled task.
+                backOnTheQueue.add(task)
             }
         }
+        logger.info("Number of Rollover Polling tasks: ${backOnTheQueue.size}")
+        pollingTasks.addAll(backOnTheQueue)
         coinMixerOrchestrator.processMixingTransactions(tasksReadyForMixing)
     }
 }

@@ -1,5 +1,8 @@
 package com.gemini.jobcoin.models.mixer
 
+import com.fasterxml.jackson.annotation.JsonInclude
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class MixerTransaction(
     val temporaryMixerAddress: String,
     val outgoingDepositAddresses: List<String>,

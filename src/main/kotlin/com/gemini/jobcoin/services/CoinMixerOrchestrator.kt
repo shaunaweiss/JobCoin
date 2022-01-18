@@ -51,7 +51,7 @@ class CoinMixerOrchestrator(
 
         // 3. Update Task Status
         task.updateTaskStatus(MixerTaskStatus.FundsInHouse)
-        logger.info("Task $task")
+        logger.info("Updating task status for $task")
     }
 
     private fun createHouseTransactionRequest(

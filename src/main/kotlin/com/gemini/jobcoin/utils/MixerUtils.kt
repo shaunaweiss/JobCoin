@@ -29,6 +29,7 @@ object MixerUtils {
         return randArray
     }
 
+    // General assumption: it IS possible that the amount of coin dolled out to an individual depositAddress is ~ 0
     fun allocateCoinDistributionByPartitionPercentage(
         partitionPercentages: DoubleArray,
         depositAddresses: List<String>,
