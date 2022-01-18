@@ -37,10 +37,9 @@ class PollingTaskQueueDispatcher(
 
             // If there is a balance on the Address Info, that means money has been transferred
             // to the tempAddress
-            // Todo: Better Handle these Null checks
-            if (addressInfo!!.isNonZeroBalance()) {
+            if (addressInfo!=null && addressInfo.isNonZeroBalance()) {
                 // The only thing missing from a MixerTransaction at this point is the amount.
-                task.updateTaskForProcessing(addressInfo.balance!!, MixerTaskStatus.ReadyForProcessing)
+                task.updateTaskForProcessing(addressInfo.balance, MixerTaskStatus.ReadyForProcessing)
                 tasksReadyForMixing.add(task)
                 dequeue(task)
             }

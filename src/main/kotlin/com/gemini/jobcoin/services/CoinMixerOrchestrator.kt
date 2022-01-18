@@ -32,8 +32,8 @@ class CoinMixerOrchestrator(
 
             mixerTaskQueueDispatcher.enqueue(task)
         }
-        // Mix coins
     }
+
     private fun generatePartitionsForTask(task: Task): DoubleArray {
         val numDepositAddresses = task.mixerTransaction.getNumDepositAddresses()
         return MixerUtils.generatePercentagePartitions(numDepositAddresses)
@@ -47,7 +47,7 @@ class CoinMixerOrchestrator(
         )
 
         // 2. Transfer balance to house.
-        val postTransaction = jobcoinWebClient.postTransaction(houseJobcoinTransactionRequest)
+        jobcoinWebClient.postTransaction(houseJobcoinTransactionRequest)
 
         // 3. Update Task Status
         task.updateTaskStatus(MixerTaskStatus.FundsInHouse)
