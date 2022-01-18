@@ -1,4 +1,4 @@
-# Jobcoin Mixer
+# Gemini Jobcoin Mixer
 ![Bitcoin](docs/assets/bitcoin.png)
 ## Developer Setup
 ### Prerequisites
