@@ -13,6 +13,6 @@ class StatusController {
 
     @GetMapping("/status")
     fun status(): String {
-        return "ok"
+        return "Hopefully my interview is going A-OK!"
     }
 }

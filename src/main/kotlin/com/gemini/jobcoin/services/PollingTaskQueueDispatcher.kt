@@ -37,7 +37,7 @@ class PollingTaskQueueDispatcher(
 
             // If there is a balance on the Address Info, that means money has been transferred
             // to the tempAddress
-            if (addressInfo!=null && addressInfo.isNonZeroBalance()) {
+            if (addressInfo != null && addressInfo.isNonZeroBalance()) {
                 // The only thing missing from a MixerTransaction at this point is the amount.
                 task.updateTaskForProcessing(addressInfo.balance, MixerTaskStatus.ReadyForProcessing)
                 tasksReadyForMixing.add(task)

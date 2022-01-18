@@ -5,10 +5,9 @@ import com.gemini.jobcoin.models.mixer.MixerRequest
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
 import com.gemini.jobcoin.models.mixer.MixerTransaction
 import com.gemini.jobcoin.models.mixer.Task
-import com.gemini.jobcoin.utils.MixerUtils
+import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class MixerService(
@@ -38,7 +37,6 @@ class MixerService(
     // Future Implementation Ideas: Provide User with TransactionId in order to enable status lookup
     // instead of using temporaryAddress
     fun getMixerJobStatus(temporaryAddress: String): MixerTaskStatusResponse {
-        logger.info("I made it here")
         val task = processedMixerJobsLedger[temporaryAddress]
         return if (task != null) {
             MixerTaskStatusResponse(

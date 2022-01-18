@@ -3,10 +3,7 @@ package com.gemini.jobcoin.utils
 import org.slf4j.LoggerFactory
 
 object MixerUtils {
-    private const val STRING_LENGTH = 10
-    const val MAX_PARTITION_PERCENTAGE = 100.0
-    private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-
+    private const val MAX_PARTITION_PERCENTAGE = 100.0
     private val logger = LoggerFactory.getLogger(javaClass)
 
     /**

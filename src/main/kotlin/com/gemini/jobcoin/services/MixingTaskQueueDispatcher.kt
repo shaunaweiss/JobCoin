@@ -5,7 +5,6 @@ import com.gemini.jobcoin.models.HOUSE_ADDRESS
 import com.gemini.jobcoin.models.api.request.JobcoinTransactionRequest
 import com.gemini.jobcoin.models.mixer.MixerTaskStatus
 import com.gemini.jobcoin.models.mixer.Task
-import com.gemini.jobcoin.utils.MixerUtils
 import java.util.LinkedList
 import java.util.Queue
 import org.slf4j.LoggerFactory
@@ -44,8 +43,9 @@ class MixingTaskQueueDispatcher(
                     amount = it.value.toString()
                 )
                 logger.info("Posting Transaction: $transactionRequest")
-                jobcoinWebClient.postTransaction(transactionRequest)
-                // Todo - handle a retry if this fails
+                jobcoinWebClient.postTransaction(transactionRequest) // Assumption - this always succeeds :)
+
+                // Future implementation - handle if the post request fails
 
                 // For future implementation - if a single request failed,
                 // send back the amount to the original senderAddress
