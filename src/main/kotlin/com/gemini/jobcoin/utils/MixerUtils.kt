@@ -29,6 +29,7 @@ object MixerUtils {
         return randArray
     }
 
+    // General assumption: it IS possible that a depositAddress is dolled out 0 coins.
     fun allocateCoinDistributionByPartitionPercentage(
         partitionPercentages: DoubleArray,
         depositAddresses: List<String>,
