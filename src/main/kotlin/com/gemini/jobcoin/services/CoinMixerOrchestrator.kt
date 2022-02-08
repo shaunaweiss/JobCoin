@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class CoinMixerOrchestrator(
     private val jobcoinWebClient: JobcoinWebClient,
-    private val mixerTaskQueueDispatcher: MixingTaskQueueDispatcher
+    private val mixerTaskQueueDispatcher: MixingTaskQueueDispatcherDynamic
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
     fun processMixingTransactions(tasks: Set<Task>) {
