@@ -1,5 +1,4 @@
 # Gemini Jobcoin Mixer
-![Bitcoin](docs/assets/bitcoin.png)
 ## Developer Setup
 ### Prerequisites
 1. Java 11
